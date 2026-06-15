@@ -6,12 +6,13 @@ the encoder (BGE-M3), the cross-encoder reranker
 match every retriever to a 1024-token context budget, and vary only
 the construction pipeline.
 
-The companion 6-page report is in [`paper/`](paper/); the headline
-result is that under a 7B open-weight generator, a plain
-Dense + reranker retriever already matches the retrieval-perfect
-Oracle (54% vs 56%, McNemar p = 1.0), while LLM-driven construction
-(session summaries, Mem0-style four-op update agent) makes accuracy
-worse rather than better.
+The 6-page ACL-format report is in [`paper/`](paper/) (source
+`paper/main.tex` and the compiled `paper/main.pdf`). The headline
+result: under a 7B open-weight generator, a plain Dense + reranker
+retriever already matches the retrieval-perfect Oracle (54% vs 56%,
+McNemar p = 1.0), while LLM-driven construction (session summaries,
+Mem0-style four-op update agent) makes accuracy worse rather than
+better.
 
 Course: *Natural Language Processing and Speech Technology* (final
 project). Author: Yong Yang, School of Software, Beihang University.
@@ -35,9 +36,12 @@ final_project/
 │   ├── eval/judge.py
 │   ├── run.py                unified entry point
 │   ├── aggregate.py          summary.csv + pairwise McNemar on shared subset
-│   └── plot_results.py       five PNGs into results/figs/
+│   └── plot_results.py       five PNGs into paper/figs/
 ├── results/                  aggregate metrics (no predictions.jsonl)
-└── paper/                    6-page ACL LaTeX project + figs/*.png
+└── paper/                    6-page ACL LaTeX project
+    ├── main.tex / custom.bib / acl.sty / acl_natbib.bst
+    ├── figs/*.png            five figures used in the report
+    └── main.pdf              compiled output (also rebuildable from source)
 ```
 
 `models/`, `data/longmemeval/` and `results/*/predictions.jsonl` are
@@ -87,8 +91,11 @@ python -m src.aggregate
 python -m src.plot_results
 # -> results/summary.csv
 # -> results/pairwise_shared.csv
-# -> results/figs/{accuracy_bar,ablation_chain,acc_vs_cost,
-#                  per_type_heatmap,mcnemar_matrix}.png
+# -> paper/figs/{accuracy_bar,ablation_chain,acc_vs_cost,
+#                per_type_heatmap,mcnemar_matrix}.png
+
+# 4. (optional) rebuild the report
+cd paper && latexmk -pdf -bibtex main.tex
 ```
 
 Wall-clock on a single A800 with the HuggingFace backend (the
@@ -154,10 +161,10 @@ full table and the paired McNemar matrix used in the report.
 
 ## Companion survey
 
-The paper at `paper/main.tex` cites a companion survey
-(`survey_paper/main.tex` in the parent folder) which reviews Mem0,
-MemOS and Zep along the construction / storage / retrieval axes.
-Treat the two documents as a *survey + study* pair.
+The paper at `paper/main.tex` cites a companion survey that reviews
+Mem0, MemOS and Zep along the construction / storage / retrieval
+axes. Treat the two documents as a *survey + study* pair; the
+survey is released as a separate course report.
 
 ## Licences
 

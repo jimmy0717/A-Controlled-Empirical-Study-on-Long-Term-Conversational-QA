@@ -22,7 +22,6 @@ models/
 data/longmemeval/
 data/longmemeval_raw/
 longmemeval_data.zip
-*.zip
 
 # --- Per-question predictions are kept locally for inspection but
 #     not committed: they contain LongMemEval question/answer text and
@@ -31,7 +30,9 @@ longmemeval_data.zip
 #     contain only aggregate numbers. ---
 results/*/predictions.jsonl
 
-# --- LaTeX build artefacts ---
+# --- LaTeX build artefacts (the source .tex / .bib / .sty and the
+#     compiled main.pdf are committed; only the intermediate files are
+#     ignored). ---
 paper/main.aux
 paper/main.bbl
 paper/main.blg
@@ -42,7 +43,6 @@ paper/main.out
 paper/main.synctex.gz
 paper/main.toc
 paper/_minted-*/
-paper/main.pdf
 
 # --- Editor / OS ---
 .DS_Store
@@ -53,8 +53,3 @@ paper/main.pdf
 
 # --- Probe / smoke-test runs ---
 results/_*/
-
-# --- Report / paper artefacts (not in this code repo) ---
-paper/
-final project.pdf
-*.pdf

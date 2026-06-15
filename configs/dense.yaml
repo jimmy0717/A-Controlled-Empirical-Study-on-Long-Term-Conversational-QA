@@ -1,0 +1,12 @@
+experiment: { name: "dense", output_dir: "results/dense", seed: 42, num_questions: 200 }
+data:        { split: "longmemeval_s", data_dir: "data/longmemeval" }
+retriever:   { name: "dense", top_k: 50, budget_tokens: 1024 }
+dense:
+  encoder: "models/bge-m3"
+  device: "cuda"
+  batch_size: 64
+  chunk_size: 512
+  reranker: "models/bge-reranker-base"
+  rerank_top_n: 32
+generator:   { backend: "hf",     model: "models/Qwen2.5-7B-Instruct", max_new_tokens: 512, temperature: 0.0, top_p: 1.0 }
+judge:       { backend: "openai", model: "deepseek-v4-flash", max_new_tokens: 128, temperature: 0.0 }

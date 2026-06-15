@@ -1,0 +1,65 @@
+{
+  "experiment": "mem0_lite",
+  "retriever": "mem0_lite",
+  "n_questions": 50,
+  "accuracy": 0.08,
+  "accuracy_by_type": {
+    "multi-session": 0.16666666666666666,
+    "knowledge-update": 0.0,
+    "single-session-user": 0.14285714285714285,
+    "single-session-preference": 0.0,
+    "temporal-reasoning": 0.0,
+    "single-session-assistant": 0.0
+  },
+  "wallclock_total_s": 12524.328439809382,
+  "latency": {
+    "index_p50_s": 251.8754854053259,
+    "index_p95_s": 274.3970660381019,
+    "generate_p50_s": 0.24296129494905472,
+    "generate_p95_s": 0.3298295624554157
+  },
+  "tokens": {
+    "generator_in": 21626348,
+    "generator_out": 1672932,
+    "generator_calls": 47272,
+    "judge_calls": 36
+  },
+  "config": {
+    "experiment": {
+      "name": "mem0_lite",
+      "output_dir": "results/mem0_lite",
+      "seed": 42,
+      "num_questions": 50
+    },
+    "data": {
+      "split": "longmemeval_s",
+      "data_dir": "data/longmemeval"
+    },
+    "retriever": {
+      "name": "mem0_lite",
+      "top_k": 50,
+      "budget_tokens": 1024
+    },
+    "mem0_lite": {
+      "extractor_model": "models/Qwen2.5-7B-Instruct",
+      "extractor_backend": "hf",
+      "updater_model": "models/Qwen2.5-7B-Instruct",
+      "encoder": "models/bge-m3",
+      "similarity_threshold": 0.75,
+      "max_memories_per_pair": 8
+    },
+    "generator": {
+      "backend": "hf",
+      "model": "models/Qwen2.5-7B-Instruct",
+      "max_new_tokens": 512,
+      "temperature": 0.0,
+      "top_p": 1.0
+    },
+    "judge": {
+      "backend": "openai",
+      "model": "deepseek-v4-flash",
+      "max_new_tokens": 128,
+      "temperature": 0.0
+    }
+  }
+}

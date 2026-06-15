@@ -1,0 +1,6 @@
+experiment: { name: "bm25", output_dir: "results/bm25", seed: 42, num_questions: 200 }
+data:        { split: "longmemeval_s", data_dir: "data/longmemeval" }
+retriever:   { name: "bm25", top_k: 50, budget_tokens: 1024 }
+bm25:        { chunk_size: 512 }
+generator:   { backend: "hf",     model: "models/Qwen2.5-7B-Instruct", max_new_tokens: 512, temperature: 0.0, top_p: 1.0 }
+judge:       { backend: "openai", model: "deepseek-v4-flash", max_new_tokens: 128, temperature: 0.0 }

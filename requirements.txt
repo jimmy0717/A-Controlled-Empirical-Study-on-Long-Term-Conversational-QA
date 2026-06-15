@@ -1,0 +1,34 @@
+# Tested on Python 3.10 (Baidu AI Studio, single-card A800 80G).
+# Install with:  pip install -r requirements.txt
+
+# Core
+numpy>=1.26
+pandas>=2.0
+pyyaml>=6.0
+tqdm>=4.66
+diskcache>=5.6.3
+scikit-learn>=1.3
+matplotlib>=3.8
+
+# Retrieval
+rank-bm25>=0.2.2
+sentence-transformers>=3.0.1   # also ships CrossEncoder for the dense reranker
+
+# Local LLM backend (HuggingFace path used for the reported numbers).
+# vLLM is *not* listed here because it is fragile w.r.t. the local
+# CUDA/torch combo on AI Studio; the configs default to the `hf` backend.
+# To experiment with vLLM,  pip install "vllm>=0.5.4"  on a compatible box.
+torch>=2.3.0
+# Keep transformers and tokenizers aligned. Newer transformers (>=4.57)
+# require tokenizers>=0.22, which may not match a preinstalled tokenizers
+# on AI Studio.
+transformers>=4.44.0,<4.57
+tokenizers>=0.21,<0.22
+accelerate>=0.32.0
+
+# Data + model download helpers
+huggingface-hub>=0.24
+hf_transfer>=0.1.6
+
+# Remote judge (DeepSeek's OpenAI-compatible API)
+openai>=1.40

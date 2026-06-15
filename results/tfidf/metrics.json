@@ -1,0 +1,60 @@
+{
+  "experiment": "tfidf",
+  "retriever": "tfidf",
+  "n_questions": 200,
+  "accuracy": 0.35,
+  "accuracy_by_type": {
+    "multi-session": 0.17543859649122806,
+    "knowledge-update": 0.40625,
+    "single-session-user": 0.7857142857142857,
+    "single-session-preference": 0.0,
+    "temporal-reasoning": 0.25,
+    "single-session-assistant": 0.75
+  },
+  "wallclock_total_s": 586.5331323519349,
+  "latency": {
+    "index_p50_s": 0.15873854234814644,
+    "index_p95_s": 0.16661187633872032,
+    "generate_p50_s": 0.7501348704099655,
+    "generate_p95_s": 3.5103963539004326
+  },
+  "tokens": {
+    "generator_in": 228140,
+    "generator_out": 10539,
+    "generator_calls": 200,
+    "judge_calls": 165
+  },
+  "config": {
+    "experiment": {
+      "name": "tfidf",
+      "output_dir": "results/tfidf",
+      "seed": 42,
+      "num_questions": 200
+    },
+    "data": {
+      "split": "longmemeval_s",
+      "data_dir": "data/longmemeval"
+    },
+    "retriever": {
+      "name": "tfidf",
+      "top_k": 50,
+      "budget_tokens": 1024
+    },
+    "tfidf": {
+      "chunk_size": 512
+    },
+    "generator": {
+      "backend": "hf",
+      "model": "models/Qwen2.5-7B-Instruct",
+      "max_new_tokens": 512,
+      "temperature": 0.0,
+      "top_p": 1.0
+    },
+    "judge": {
+      "backend": "openai",
+      "model": "deepseek-v4-flash",
+      "max_new_tokens": 128,
+      "temperature": 0.0
+    }
+  }
+}

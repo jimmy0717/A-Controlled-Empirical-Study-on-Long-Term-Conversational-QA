@@ -1,0 +1,57 @@
+{
+  "experiment": "oracle",
+  "retriever": "oracle",
+  "n_questions": 200,
+  "accuracy": 0.515,
+  "accuracy_by_type": {
+    "multi-session": 0.543859649122807,
+    "knowledge-update": 0.65625,
+    "single-session-user": 0.75,
+    "single-session-preference": 0.0,
+    "temporal-reasoning": 0.4230769230769231,
+    "single-session-assistant": 0.5
+  },
+  "wallclock_total_s": 519.2417943626642,
+  "latency": {
+    "index_p50_s": 8.843839168548584e-05,
+    "index_p95_s": 0.00011968612670898438,
+    "generate_p50_s": 1.01951964199543,
+    "generate_p95_s": 3.3138603009283543
+  },
+  "tokens": {
+    "generator_in": 103981,
+    "generator_out": 11260,
+    "generator_calls": 200,
+    "judge_calls": 164
+  },
+  "config": {
+    "experiment": {
+      "name": "oracle",
+      "output_dir": "results/oracle",
+      "seed": 42,
+      "num_questions": 200
+    },
+    "data": {
+      "split": "longmemeval_s",
+      "data_dir": "data/longmemeval"
+    },
+    "retriever": {
+      "name": "oracle",
+      "top_k": 50,
+      "budget_tokens": 1024
+    },
+    "generator": {
+      "backend": "hf",
+      "model": "models/Qwen2.5-7B-Instruct",
+      "max_new_tokens": 512,
+      "temperature": 0.0,
+      "top_p": 1.0
+    },
+    "judge": {
+      "backend": "openai",
+      "model": "deepseek-v4-flash",
+      "max_new_tokens": 128,
+      "temperature": 0.0
+    }
+  }
+}

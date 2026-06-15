@@ -1,0 +1,87 @@
+# Default experiment configuration with all options documented.
+# Each top-level retriever config below inherits these defaults; CLI YAMLs
+# in configs/<retriever>.yaml override only the fields that change.
+#
+# AI-Studio note: A800 80G can run Qwen2.5-7B in bf16 (~15 GB),
+# 14B (~28 GB), or 32B-AWQ (~18 GB). The numbers below are tuned for the
+# A800 80G + vLLM combination.
+#
+# ALL local models are loaded from ./models/ (run scripts/download_models.sh
+# once). Only the judge uses a remote API (DeepSeek-V4-Flash).
+
+experiment:
+  name: "default"
+  seed: 42
+  output_dir: "results/default"
+  num_questions: 200          # 200+ recommended for stat power, use -1 for full split
+
+data:
+  dataset: "longmemeval"
+  split:   "longmemeval_s"
+  data_dir: "data/longmemeval"
+
+# ---------------------------------------------------------------------------
+# Retrieval contract: every retriever returns a *shortlist* of size top_k,
+# which is then **packed by token budget** so all baselines receive the same
+# context size. This is the single most important fairness fix.
+# ---------------------------------------------------------------------------
+retriever:
+  name: "dense"
+  top_k: 50                   # shortlist size (before packing)
+  budget_tokens: 1024         # context budget shared by ALL baselines
+
+tfidf:
+  chunk_size: 512
+
+bm25:
+  chunk_size: 512
+
+dense:
+  encoder: "models/bge-m3"             # local path (scripts/download_models.sh)
+  device:  "cuda"
+  batch_size: 64
+  chunk_size: 512
+  reranker: "models/bge-reranker-base" # set null to disable
+  rerank_top_n: 32
+
+dense_summarized:
+  encoder: "models/bge-m3"
+  device:  "cuda"
+  batch_size: 64
+  max_facts_per_session: 12
+  reranker: "models/bge-reranker-base" # same rerank stage as `dense` so the
+  rerank_top_n: 32                     # comparison isolates granularity only
+
+mem0_lite:
+  # Asymmetric setting: a *bigger* extractor with a smaller generator is
+  # closer to how production Mem0 runs. Default: same 7B model on both
+  # sides for simplicity; flip to 14B via configs/mem0_lite_14b.yaml.
+  extractor_model:   "models/Qwen2.5-7B-Instruct"
+  extractor_backend: "hf"
+  updater_model:     "models/Qwen2.5-7B-Instruct"
+  encoder:           "models/bge-m3"
+  similarity_threshold:  0.75
+  max_memories_per_pair: 8
+
+# ---------------------------------------------------------------------------
+generator:
+  backend:  "hf"             # "hf" | "vllm" | "openai"; HF used for all reported runs
+  model:    "models/Qwen2.5-7B-Instruct"
+  max_new_tokens: 512
+  temperature: 0.0
+  top_p: 1.0
+
+# ---------------------------------------------------------------------------
+# Independent judge config. We use a DIFFERENT model family from the
+# generator (DeepSeek vs. Qwen) to mitigate self-preference bias in the
+# LLM-as-judge protocol. DeepSeek exposes an OpenAI-compatible API, so set:
+#   OPENAI_BASE_URL=https://api.deepseek.com/v1
+#   OPENAI_API_KEY=<your-deepseek-key>
+# (Any other OpenAI-compatible endpoint works too; switch backend to
+#  "hf"/"vllm" if you must run the judge fully local.)
+# ---------------------------------------------------------------------------
+judge:
+  backend: "openai"            # requires OPENAI_API_KEY; use "hf"/"vllm" to run fully local
+  model:   "deepseek-v4-flash" # DeepSeek-V4-Flash via api.deepseek.com
+  max_new_tokens: 128
+  temperature: 0.0

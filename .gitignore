@@ -1,0 +1,60 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+.venv/
+venv/
+.env
+.python-version
+.ipynb_checkpoints/
+
+# --- Caches written by the experiment runner ---
+.llm_cache/
+.llm_cache_*/
+.diskcache/
+
+# --- Model weights (download via scripts/download_models.sh) ---
+models/
+
+# --- Datasets (download via scripts/download_data.sh) ---
+data/longmemeval/
+data/longmemeval_raw/
+longmemeval_data.zip
+*.zip
+
+# --- Per-question predictions are kept locally for inspection but
+#     not committed: they contain LongMemEval question/answer text and
+#     should not be redistributed alongside this repo. metrics.json,
+#     summary.csv and pairwise_shared.csv ARE committed because they
+#     contain only aggregate numbers. ---
+results/*/predictions.jsonl
+
+# --- LaTeX build artefacts ---
+paper/main.aux
+paper/main.bbl
+paper/main.blg
+paper/main.fdb_latexmk
+paper/main.fls
+paper/main.log
+paper/main.out
+paper/main.synctex.gz
+paper/main.toc
+paper/_minted-*/
+paper/main.pdf
+
+# --- Editor / OS ---
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*~
+
+# --- Probe / smoke-test runs ---
+results/_*/
+
+# --- Report / paper artefacts (not in this code repo) ---
+paper/
+final project.pdf
+*.pdf

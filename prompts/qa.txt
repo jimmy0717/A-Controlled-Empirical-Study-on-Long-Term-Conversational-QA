@@ -1,0 +1,15 @@
+You are a helpful assistant answering a question based on memories
+recalled from prior conversations with the user.
+
+Use ONLY the information in MEMORIES below. If the answer is not present
+or cannot be inferred, reply: "I don't know based on the available memories."
+
+Today's date: {today}
+
+==== MEMORIES (most relevant first) ====
+{memories}
+
+==== QUESTION ====
+{question}
+
+==== ANSWER ====

@@ -1,0 +1,65 @@
+{
+  "experiment": "dense",
+  "retriever": "dense",
+  "n_questions": 200,
+  "accuracy": 0.46,
+  "accuracy_by_type": {
+    "multi-session": 0.38596491228070173,
+    "knowledge-update": 0.65625,
+    "single-session-user": 0.7857142857142857,
+    "single-session-preference": 0.0,
+    "temporal-reasoning": 0.25,
+    "single-session-assistant": 0.875
+  },
+  "wallclock_total_s": 2054.2145360074937,
+  "latency": {
+    "index_p50_s": 7.403348114341497,
+    "index_p95_s": 8.432223636657,
+    "generate_p50_s": 0.9687620103359222,
+    "generate_p95_s": 5.750843804329634
+  },
+  "tokens": {
+    "generator_in": 234667,
+    "generator_out": 13267,
+    "generator_calls": 200,
+    "judge_calls": 159
+  },
+  "config": {
+    "experiment": {
+      "name": "dense",
+      "output_dir": "results/dense",
+      "seed": 42,
+      "num_questions": 200
+    },
+    "data": {
+      "split": "longmemeval_s",
+      "data_dir": "data/longmemeval"
+    },
+    "retriever": {
+      "name": "dense",
+      "top_k": 50,
+      "budget_tokens": 1024
+    },
+    "dense": {
+      "encoder": "models/bge-m3",
+      "device": "cuda",
+      "batch_size": 64,
+      "chunk_size": 512,
+      "reranker": "models/bge-reranker-base",
+      "rerank_top_n": 32
+    },
+    "generator": {
+      "backend": "hf",
+      "model": "models/Qwen2.5-7B-Instruct",
+      "max_new_tokens": 512,
+      "temperature": 0.0,
+      "top_p": 1.0
+    },
+    "judge": {
+      "backend": "openai",
+      "model": "deepseek-v4-flash",
+      "max_new_tokens": 128,
+      "temperature": 0.0
+    }
+  }
+}

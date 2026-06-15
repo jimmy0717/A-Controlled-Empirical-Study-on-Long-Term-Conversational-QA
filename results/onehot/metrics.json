@@ -1,0 +1,60 @@
+{
+  "experiment": "onehot",
+  "retriever": "onehot",
+  "n_questions": 200,
+  "accuracy": 0.315,
+  "accuracy_by_type": {
+    "multi-session": 0.21052631578947367,
+    "knowledge-update": 0.375,
+    "single-session-user": 0.75,
+    "single-session-preference": 0.0,
+    "temporal-reasoning": 0.19230769230769232,
+    "single-session-assistant": 0.5
+  },
+  "wallclock_total_s": 562.9934257045388,
+  "latency": {
+    "index_p50_s": 0.05949082598090172,
+    "index_p95_s": 0.06571941822767258,
+    "generate_p50_s": 0.7549478784203529,
+    "generate_p95_s": 2.485275838524103
+  },
+  "tokens": {
+    "generator_in": 219952,
+    "generator_out": 9422,
+    "generator_calls": 195,
+    "judge_calls": 195
+  },
+  "config": {
+    "experiment": {
+      "name": "onehot",
+      "output_dir": "results/onehot",
+      "seed": 42,
+      "num_questions": 200
+    },
+    "data": {
+      "split": "longmemeval_s",
+      "data_dir": "data/longmemeval"
+    },
+    "retriever": {
+      "name": "onehot",
+      "top_k": 50,
+      "budget_tokens": 1024
+    },
+    "onehot": {
+      "chunk_size": 512
+    },
+    "generator": {
+      "backend": "hf",
+      "model": "models/Qwen2.5-7B-Instruct",
+      "max_new_tokens": 512,
+      "temperature": 0.0,
+      "top_p": 1.0
+    },
+    "judge": {
+      "backend": "openai",
+      "model": "deepseek-v4-flash",
+      "max_new_tokens": 128,
+      "temperature": 0.0
+    }
+  }
+}

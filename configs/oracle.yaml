@@ -1,0 +1,6 @@
+# Retrieval-perfect upper bound. Reads LongMemEval's gold has_answer flag.
+experiment: { name: "oracle", output_dir: "results/oracle", seed: 42, num_questions: 200 }
+data:        { split: "longmemeval_s", data_dir: "data/longmemeval" }
+retriever:   { name: "oracle", top_k: 50, budget_tokens: 1024 }
+generator:   { backend: "hf",     model: "models/Qwen2.5-7B-Instruct", max_new_tokens: 512, temperature: 0.0, top_p: 1.0 }
+judge:       { backend: "openai", model: "deepseek-v4-flash", max_new_tokens: 128, temperature: 0.0 }

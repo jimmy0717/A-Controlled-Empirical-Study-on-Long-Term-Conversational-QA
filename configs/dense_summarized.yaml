@@ -1,0 +1,19 @@
+# Disentangles "construction (LLM summary)" from "four-op update agent".
+# Compare:  Dense  vs  Dense-Summarized  -> isolates granularity / construction.
+#           Dense-Summarized  vs  Mem0-Lite -> isolates the four-op update agent.
+experiment: { name: "dense_summarized", output_dir: "results/dense_summarized", seed: 42, num_questions: 200 }
+data:        { split: "longmemeval_s", data_dir: "data/longmemeval" }
+retriever:   { name: "dense_summarized", top_k: 50, budget_tokens: 1024 }
+dense_summarized:
+  encoder: "models/bge-m3"
+  device: "cuda"
+  batch_size: 64
+  max_facts_per_session: 12
+  # Same reranker/top_n as configs/dense.yaml so that Dense vs
+  # Dense-Summarized isolates ONLY granularity/construction (both share an
+  # identical cross-encoder rerank stage) instead of confounding it with
+  # the presence/absence of a reranker.
+  reranker: "models/bge-reranker-base"
+  rerank_top_n: 32
+generator:   { backend: "hf",     model: "models/Qwen2.5-7B-Instruct", max_new_tokens: 512, temperature: 0.0, top_p: 1.0 }
+judge:       { backend: "openai", model: "deepseek-v4-flash", max_new_tokens: 128, temperature: 0.0 }

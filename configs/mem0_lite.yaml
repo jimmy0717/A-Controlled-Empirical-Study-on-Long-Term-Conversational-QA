@@ -1,0 +1,17 @@
+# Mem0-Lite with the *same* 7B extractor as the generator (cheap baseline).
+# NOTE: construction is O(turns) and runs 1 extract + several update LLM calls
+# per (user, assistant) pair, so we cap this heavy run at 50 questions.
+# All embedding-based baselines stay at 200; the paper reports the
+# accuracy comparison on the shared 50-question subset for fairness.
+experiment: { name: "mem0_lite", output_dir: "results/mem0_lite", seed: 42, num_questions: 50 }
+data:        { split: "longmemeval_s", data_dir: "data/longmemeval" }
+retriever:   { name: "mem0_lite", top_k: 50, budget_tokens: 1024 }
+mem0_lite:
+  extractor_model:   "models/Qwen2.5-7B-Instruct"
+  extractor_backend: "hf"
+  updater_model:     "models/Qwen2.5-7B-Instruct"
+  encoder:           "models/bge-m3"
+  similarity_threshold:  0.75
+  max_memories_per_pair: 8
+generator:   { backend: "hf",     model: "models/Qwen2.5-7B-Instruct", max_new_tokens: 512, temperature: 0.0, top_p: 1.0 }
+judge:       { backend: "openai", model: "deepseek-v4-flash", max_new_tokens: 128, temperature: 0.0 }

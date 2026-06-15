@@ -1,0 +1,60 @@
+{
+  "experiment": "bm25",
+  "retriever": "bm25",
+  "n_questions": 200,
+  "accuracy": 0.39,
+  "accuracy_by_type": {
+    "multi-session": 0.2807017543859649,
+    "knowledge-update": 0.5,
+    "single-session-user": 0.75,
+    "single-session-preference": 0.06666666666666667,
+    "temporal-reasoning": 0.25,
+    "single-session-assistant": 0.6875
+  },
+  "wallclock_total_s": 589.3994823023677,
+  "latency": {
+    "index_p50_s": 0.059899281710386276,
+    "index_p95_s": 0.06464870274066925,
+    "generate_p50_s": 0.845802541822195,
+    "generate_p95_s": 3.924581650644541
+  },
+  "tokens": {
+    "generator_in": 230324,
+    "generator_out": 11460,
+    "generator_calls": 200,
+    "judge_calls": 144
+  },
+  "config": {
+    "experiment": {
+      "name": "bm25",
+      "output_dir": "results/bm25",
+      "seed": 42,
+      "num_questions": 200
+    },
+    "data": {
+      "split": "longmemeval_s",
+      "data_dir": "data/longmemeval"
+    },
+    "retriever": {
+      "name": "bm25",
+      "top_k": 50,
+      "budget_tokens": 1024
+    },
+    "bm25": {
+      "chunk_size": 512
+    },
+    "generator": {
+      "backend": "hf",
+      "model": "models/Qwen2.5-7B-Instruct",
+      "max_new_tokens": 512,
+      "temperature": 0.0,
+      "top_p": 1.0
+    },
+    "judge": {
+      "backend": "openai",
+      "model": "deepseek-v4-flash",
+      "max_new_tokens": 128,
+      "temperature": 0.0
+    }
+  }
+}
